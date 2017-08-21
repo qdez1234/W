@@ -1,0 +1,175 @@
+
+#content-list{
+	height: 100%;
+}
+#header{
+	height: 30px;
+	width: 100%;
+	border-bottom: 1px solid #ccc;
+	padding:10px;
+	position: fixed;
+	min-width: 980px;
+}
+#header .Himg{
+	width: 151px;
+	height: 30px;
+	margin-right: 10px;
+}
+
+#header .Himg img{
+	box-sizing: border-box;
+	float: left;
+	height: 30px;
+	width: 30px;
+	border: 1px solid #ccc;
+	border-radius: 50%;
+}
+#header .Himg .text{
+	height: 30px;
+	line-height: 30px;
+	display: inline-block;
+	margin-left: 10px;
+
+}
+#header .Htext{
+	height: 30px;
+	line-height: 30px;
+	margin-right: 25px;
+}
+#header .Hlist ul{
+	float: left;
+	height: 30px;
+	line-height: 22px;
+	display: inline-block;
+}
+#header .Hlist li{
+	box-sizing: border-box;
+	width: 40px;
+	text-align: center;
+	float: left;
+	font-size: 12px;
+	font-weight: 500;
+	margin-left: 5px;
+	border-bottom: 3px solid #ccc;
+	color: #ccc;
+
+}
+#header .Hlist li:last-child{
+	border-bottom: none;
+	margin-left: -10px;
+}
+#header .Htab ul{
+	float: right;
+	height: 30px;
+	line-height: 22px;
+	display: inline-block;
+}
+#header .Htab li{
+	box-sizing: border-box;
+	width: 40px;
+	float: left;
+	font-size: 12px;
+}
+#header .Htab li .icon-2{
+	height: 20px;
+	width:  20px;
+	font-size: 20px;
+	display: block;
+}
+#header .Htab li .icon-2:before{
+	content: "\e901"
+}
+
+
+#navigation{
+	width: 160px;
+	float: left;
+	min-height: 100%;
+	border: 1px solid #ccc;
+	margin-top: 50px;
+	position: fixed;
+
+}
+
+#navigation  .list li{
+	box-sizing: border-box;
+	padding: 0 10px;
+	 float: left;
+	 height: 40px;
+	 line-height: 40px;
+	 font-size: 14px;
+	 width: 100%;
+	 border-bottom: 1px solid #ccc;
+	 cursor: pointer;
+}
+#navigation  .list li:hover{
+	transition: all 0.5s;
+	background: #d1dbe5;
+}
+#navigation  .list li i:before{
+	content: "\e901"
+}
+#navigation  .list li i{
+	margin-right:10px;
+}
+
+#navigation  .list li .icon-1-1{
+	display: inline-block;
+	border-radius: 3px;
+	background-color: red;
+	height: 20px;
+	width: 20px;
+	line-height: 20px;
+    box-shadow: 1px 1px 1px #888888;	
+    text-align: center;
+	color: white;
+	float: right;
+	margin-left: 5px;
+	margin-top: 10px;
+	font-weight: 500;
+}
+
+#navigation .list:after {
+content: "";
+display: block;
+height: 0;
+clear: both;
+}
+
+#navigation .add ul li{
+	list-style: armenian;
+	box-sizing: border-box;
+	padding: 0 5px;
+    float: left;
+    width: 100%;
+    height: 30px;
+    line-height: 35px;
+    font-size: 14px;
+    font-weight: 500;
+}
+#navigation .add ul li .time{
+ float: right;
+}
+
+#navigation .add:after {
+content: "";
+display: block;
+height: 0;
+clear: both;
+}
+
+#navigation .count{
+	width: 25px;
+	height: 25px;
+	line-height: 20px;
+	text-align: center;
+	border:2px solid #ccc;
+	border-radius: 50%;
+	font-size: 30px;
+	color: #ccc;
+	cursor: pointer;
+	float: right;
+	margin-top: 50px;
+	position: absolute;
+	bottom: 0;
+}

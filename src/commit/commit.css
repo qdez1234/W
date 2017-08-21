@@ -1,0 +1,21 @@
+*{
+	margin: 0;
+	padding: 0;
+}
+.lf{
+	float: left;
+}
+.rg{
+	float: right;
+}
+li{
+	list-style: none;
+}
+html{
+	height: 100%;
+}
+body{
+		min-width: 980px;
+		height: 100%;
+		height: 800px;
+}

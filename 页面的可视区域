@@ -1,0 +1,12 @@
+$(window).height   --->  窗口高度   ;
+$(window).scrolltop --->窗口的滚动过的高度;
+
+
+
+$(window).height  +  $(window).scrollTop == 当前页面已经看见过的区域
+
+$(div).offset().top  --->当前div距离顶部的偏移量
+
+
+
+$(div).offset().top <= $(window).hegiht+$(window).scrollTop      当前页面看见过的区域如果大于等于div距离顶部的偏移量, 代表已经看可视区域看见div了

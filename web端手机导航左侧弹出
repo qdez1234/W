@@ -4,7 +4,22 @@
 1. 设置div元素的宽高   为整个 屏幕的宽高   position:flexd   top:0  left:0  right:0  bottom:0;   
  
 
-问题         左侧点击为导航条         右侧点击为隐藏          出现两个事件重叠问题   
+问题         左侧点击为导航条         右侧点击为隐藏          出现两个事件重叠问题     以及页面无法滚动
+
+
+// 禁用窗口滚动手机端
+var onHandler=function(e) {
+  e.preventDefault();
+}
+var onTouchMove=function(inFlag){
+  if (inFlag) {
+    document.addEventListener('touchmove',onHandler, false);
+  } else {
+    document.removeEventListener('touchmove',onHandler, false);
+  }
+}
+		onTouchMove(true);//禁用手机端滚动
+		onTouchMove(开启);//禁用手机端滚动
 
 
 

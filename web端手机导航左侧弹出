@@ -14,3 +14,23 @@
 
 对导航条的元素直接进行   防止子元素点击触发父元素事件    event.stopPropagation();//阻止事件冒泡即可
 
+   .list2{     // 父元素
+    position: fixed;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    left: 0;
+    z-index: 100;
+    background: rgba(0,0,0,.15);
+       }
+
+      
+
+    .list{   //子元素
+    position: fixed;
+    z-index: 200;
+    top: 0;
+    bottom: 0;
+    width: 100px;
+
+       }

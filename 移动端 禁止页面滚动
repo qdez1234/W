@@ -1,0 +1,14 @@
+
+// 禁用窗口滚动手机端
+var onHandler=function(e) {
+  e.preventDefault();
+}
+var onTouchMove=function(inFlag){
+  if (inFlag) {
+    document.addEventListener('touchmove',onHandler, false);
+  } else {
+    document.removeEventListener('touchmove',onHandler, false);
+  }
+}
+		onTouchMove(true);//禁用滚动
+		onTouchMove(false);//启用滚动

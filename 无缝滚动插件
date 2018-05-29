@@ -7,7 +7,7 @@
 .dowebok1,.dowebok2,.dowebok3 {
     position: relative;
     overflow: hidden;
-    white-space: nowrap                 //关键是这个white-space:nowrap
+    white-space: nowrap                 //关键是这个white-space:nowrap        http://www.dowebok.com/demo/188/index12.html  API网址
 }
 .str_move{
     position: absolute;

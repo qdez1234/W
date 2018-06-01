@@ -1,0 +1,12 @@
+wx.showModal({
+    title:"标题",
+    content:"内容",
+    showCancel:false,   //取消按钮不显示
+    cancelColor:"",//取消按钮颜色
+    confirmText:"",  //确认按钮文字   最多四个字符
+    confirmColor:"",  //确认按钮颜色
+    success:function(res){if(res.confirm==true) },       //res.confirm 代表用户点击请求成功之后发送的一个请求
+    fail:function(){ //点击请求出错的情况下触发fail 失败函数  }
+    
+    
+ })

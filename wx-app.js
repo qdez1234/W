@@ -11,3 +11,17 @@ APP({
 const app=getApp()   //获取应用实例
 
 然后通过 app.   方法直接调用
+
+
+
+模块化开发   common.js           
+
+       function sayHello(){}
+
+             module.exports.sayHello=sayHello;
+
+             
+             app.js   
+ 
+                      var common=require("common.js")
+                      common.sayHello()   //调用requier过来的sayHellow函数

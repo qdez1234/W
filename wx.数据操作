@@ -1,0 +1,23 @@
+         
+         
+       var array=[0,1,2,3,4,5,6,7,,8,9]    
+      
+                                    wx:for="array"
+                                        
+                                               <block wx:for="array">           
+                                               <view>    
+                                                    {item.value}:{index}    // item代表各项    index代表索引
+                                               </view>
+                                               
+                                   wx:if={index>10?true:false}        三元表达式       wx是直接不被渲染    hidden是渲染之后影藏
+                                   
+                                  
+                                  
+                                  
+                                  
+                                  
+                                   
+                                   
+                                   
+                                   
+                                   

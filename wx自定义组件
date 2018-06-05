@@ -1,0 +1,29 @@
+wx中的小程序其实就是一个  vue+react的结合体
+ 
+   组件文件夹  components    
+   
+         1     组件 dialog     .wxml  .wxss .josn .js   
+         
+         2     dialog.json 中开始   配置组件
+                 {
+                 "component":true,         自定义组件声明    必须声明之后才能使用
+                 "usingComponents":{   //  可选项,用于引用别的组件}    
+                 }
+         3     内容     
+               <view class="wrapper">
+                 <view>这里是组件<view>
+                 <slot></slot>                 //slot用于承载组件引用时提供的子节点
+               </view>  
+           
+      例如我在index.wxml引用dialog这个组件
+      
+                             我只需要在index.json里面设置我要引入的组件   
+                             {
+                               "usingComponents":{
+                                        "my-component":"/components/dialog"   //定义myconponent这个标签的is属性引入这个组件
+                               }
+                             }
+      <my-component>         就像<my-componet is="/componets/dialog">  是同样的一个道理
+                      
+                   <view></view>         //這个节点就是用来被slot承载的   
+      <my-component>

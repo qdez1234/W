@@ -1,0 +1,18 @@
+模块化开发        公用部分都写成模块化开发的样式   比如头部  尾部
+
+在  <template   name="value" >中定义模块代码    使用name属性给模块命名
+
+在  <template  is="value" data="{array}">    同样的 使用 is属性 来调用命名的模块  使用data属性来指定js中的data对应值 
+     {item}
+     {index}                                             is属性也是可以使用三元表达式来动态确定使用哪一个组件
+   <template/>
+   
+   
+import可以在文件中使用目标文件中的template   但是无法使用目标文件引用的template文件
+
+<import src="template.wxml">    
+<template is="temlapte" data="value">           
+
+
+include 可以将目标文件除了<template/> <wxs/>外的代码引入,相当于是拷贝到include位置 
+   

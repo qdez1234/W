@@ -1,0 +1,9 @@
+<view  class={currentId=item.id?:"style":""}  id="{item.id}" bindTap="addClass">     给每个要点击的元素直接添加id  然后通过三元表达式 判断id是否等于当前id来添加类名   
+
+addClass:function(e){
+      var currentId=e.currentTarget.id       //获取目标的id属性  e.currentTarget.id
+      that.setDate({currentId:currentId})    //然后将每个内容的currentId改变成当前的本身id值  ;
+      
+      
+      //通过改变current是否等于每个元素的当前id 来添加删除类名
+}

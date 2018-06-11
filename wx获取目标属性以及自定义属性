@@ -1,0 +1,4 @@
+自定义属性  data-xxx      获取方式  e.currentTarget.dataset.xxx
+
+
+本身属性    id            获取方式 e.currentTarget.id

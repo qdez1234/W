@@ -1,0 +1,15 @@
+                                                     input-值对象是 event.detail
+                                                     
+{value: "1", cursor: 1}    
+{value: "11", cursor: 2}                  value 为inpue的值   cursor 为光标    
+
+                                          获取值直接就是通过对象.语法   event.detail.value  获取input的值
+                                          
+                                                     
+                                                     input事件
+                                                     
+                                        bindinput: 当键盘输入时触发input事件  event.detail={value:value} 替换值
+                                        
+                                        bindfocus   输入框聚焦时候触发  event.detail={value :value}    替换值
+                                        
+                                        bindblur    输入框失去焦点时触发  event.detail={value:value} 替换值

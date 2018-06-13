@@ -1,0 +1,17 @@
+display: -webkit-box; //弹性盒模型显示
+
+-webkit-box-orient: vertical; //盒模型元素的排列方式
+
+-webkit-line-clamp: 3;       //显示行数
+
+overflow: hidden;  //首先是溢出隐藏，不可或缺
+
+
+
+//  超出单行省略
+
+overflow: hidden;溢出隐藏
+
+white-space: nowrap;文字不能转行
+
+text-overflow:ellipsis;隐藏的部分用...表示

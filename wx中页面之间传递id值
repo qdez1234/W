@@ -1,0 +1,11 @@
+onLoad是一个生命周期函数，表示页面加载
+onLoad默认有一个Object类型的参数，是指其他页面打开当前页面所调用的 query 参数 
+
+a页面跳转到b页面   
+                wx:navigateTo({url:"b?id="id"})
+                
+通过onLoad:function(e){
+           id=e.id  //通过    onLoad生命周期函数自带  接受  query参数的对象
+ }                
+                
+               

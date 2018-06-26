@@ -1,0 +1,8 @@
+min-width和max-width：表示手机浏览器的最小宽度和最大宽度
+min-device-width和max-device-width：表示手机屏幕显示的最小宽度和最大宽度
+
+@media screen and (max-device-width:360px){   //iphone6   375px 
+.public-box  .left div{
+  font-size: 12px !important;
+}
+}

@@ -1,0 +1,10 @@
+var target = { a: 1 };
+var source1 = { b: 2 };
+var source2 = { c: 3 };
+Object.assign(target, source1, source2);
+target // {a:1, b:2, c:3}
+Object.assign方法的第一个参数是目标对象，后面的参数都是源对象。
+
+由于是一个浅拷贝，第一个参数会被改变
+
+这样操作会改变目标对象的值，通过var Soutce3 = Object.assgn（{}，target，source1，source2）这样将三个全部合并返回一个个对象，也可以防止被浅拷贝被修改

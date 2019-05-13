@@ -61,13 +61,13 @@
     wx.getBLEDeviceServices({      //获取蓝牙服务所有的服务 ,  通过上面搜说蓝牙获取到的id值去获得对应的所有服务
       deviceId: deviceId,
       success: function(res) {
-        var serviceId = res.services[0].uuid;                 //'49535343-FE7D-4AE5-8FA9-9FAFD205E455'          通过 res.services   获取到对应服务的值.uuid  通过这个uuid获取这个服务对应所有的特征值
+        var serviceId = res.services[0].uuid;                 //对应服务必须是具有write服务的,'49535343-FE7D-4AE5-8FA9-9FAFD205E455'          通过 res.services   获取到对应服务的值.uuid  通过这个uuid获取这个服务对应所有的特征值
         wx.getBLEDeviceCharacteristics({                     //获取到对应服务的值.uuid 来 获取蓝牙设备对应服务所有特征值。
           deviceId: deviceId,
           serviceId: serviceId,
           success: function(res) {                             
             console.log(res,'特征值数据开始')
-            var characteristicId = res.characteristics[1].uuid; //'49535343-8841-43F4-A8D4-ECBE34729BB3';
+            var characteristicId = res.characteristics[1].uuid; //对应的特征值为具有write为true的'49535343-8841-43F4-A8D4-ECBE34729BB3';
             console.log(deviceId, serviceId, characteristicId);
             that.textEnPrint([deviceId, serviceId, characteristicId])
           },

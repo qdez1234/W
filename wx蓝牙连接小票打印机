@@ -1,0 +1,171 @@
+      wx.closeBluetoothAdapter({                   //首先需要初始化蓝牙, ->关闭closeBluetoothAdapter蓝牙
+      success(res) {
+        console.log("蓝牙模块：", res);
+        //打开蓝牙模块
+        wx.openBluetoothAdapter({                 //openBluetoothAdapter执行初始化蓝牙方法    ->其他蓝牙相关 API 必须在 wx.openBluetoothAdapter 调用之后使用。否则 API 会返回错误（errCode=10000）
+          success: function(res) {
+            console.log('openBluetoothAdapter成功：', res)
+            that.setData({
+              blueOpenState: true
+            })
+          },
+          fail: function(res) {
+            console.log('openBluetoothAdapter失败：', res)
+            that.setData({
+              blueOpenState: false
+            })
+            // wx.showToast({
+            //   title: '蓝牙功能不可用',
+            //   duration: 2000
+            // })
+          }
+        })
+      }
+    });
+
+
+    wx.startBluetoothDevicesDiscovery({     //开始搜寻附近的蓝牙外围设备。此操作比较耗费系统资源，请在搜索并连接到设备后调用 wx.stopBluetoothDevicesDiscovery 方法停止搜索。
+          success: function(res) {
+            wx.onBluetoothDeviceFound(function(devices) {        //监听寻找到新设备的事件 //  获取devices 为搜寻蓝牙列表
+              console.log(devices,'devicesdevicesdevices')            
+              if (devices.devices[0].name.indexOf("Print") != -1) {
+                bluelists.push({
+                  'name': devices.devices[0].name,
+                  'deviceId': devices.devices[0].deviceId                       //主要是获取蓝牙ID
+                })
+                that.setData({
+                  blueLists: bluelists
+                })
+                console.log('蓝牙列表：', that.data.blueLists);
+                that.selectComponent('#blueCost').setshow();
+                wx.hideLoading();
+              }
+            })
+          },
+          fail: function(res) {
+            that.blueInit();
+            wx.hideLoading();
+            wx.showToast({
+              title: '蓝牙功能不可用',
+              duration: 2000
+            })
+            console.log('startBluetoothDevicesDiscovery', res)
+          }
+        })
+
+        
+
+
+    function blueGet(deviceId) {
+    var that = this;
+    wx.getBLEDeviceServices({      //获取蓝牙服务所有的服务 ,  通过上面搜说蓝牙获取到的id值去获得对应的所有服务
+      deviceId: deviceId,
+      success: function(res) {
+        var serviceId = res.services[0].uuid;                 //'49535343-FE7D-4AE5-8FA9-9FAFD205E455'          通过 res.services   获取到对应服务的值.uuid  通过这个uuid获取这个服务对应所有的特征值
+        wx.getBLEDeviceCharacteristics({                     //获取到对应服务的值.uuid 来 获取蓝牙设备对应服务所有特征值。
+          deviceId: deviceId,
+          serviceId: serviceId,
+          success: function(res) {                             
+            console.log(res,'特征值数据开始')
+            var characteristicId = res.characteristics[1].uuid; //'49535343-8841-43F4-A8D4-ECBE34729BB3';
+            console.log(deviceId, serviceId, characteristicId);
+            that.textEnPrint([deviceId, serviceId, characteristicId])
+          },
+          fail: function(res) {
+            wx.showToast({
+              title: '获取Characteristic失败',
+              icon: 'none',
+              duration: 2000,
+              mask: true
+            })
+            console.log('getBLEDeviceCharacteristics', res.characteristics)
+          }
+        })
+      },
+      fail: function(res) {
+        wx.showToast({
+          title: '获取Service失败',
+          icon: 'none',
+          duration: 2000,
+          mask: true
+        })
+        console.log('getBLEDeviceServices', res)
+      }
+    })
+  },
+
+
+
+
+        //ios发送数据(整段打印)
+  sendIosData: function(e, buffer) {
+    let byteLength = buffer.byteLength;
+    if (byteLength > 0) {
+      var that = this;
+      let deviceId = e[0];
+      let characteristicId = e[2];
+      let serviceId = e[1];
+      wx.writeBLECharacteristicValue({
+        // 这里的 deviceId 需要在上面的 getBluetoothDevices 或 onBluetoothDeviceFound 接口中获取
+        deviceId: deviceId,
+        // 这里的 serviceId 需要在上面的 getBLEDeviceServices 接口中获取
+        serviceId: serviceId,
+        // 这里的 characteristicId 需要在上面的 getBLEDeviceCharacteristics 接口中获取
+        characteristicId: characteristicId,
+        // 这里的value是ArrayBuffer类型
+        value: buffer,
+        success: function(res) {
+          console.log('writeBLECharacteristicValue success', res)
+        },
+        fail: function(err) {
+          console.log('writeBLECharacteristicValue fail', err)
+        }
+      })
+    }
+  },
+   
+  // deviceId 对应的蓝牙id值
+  //serviceId 对应蓝牙全部服务的一个服务uuid
+  //serviceId对应服务里面的具体的特征值, 比如write include 等等写入具体功能
+  var e=[deviceId,serviceId,characteristicId]
+  //Android发送数据(分段打印)
+  sendAndroidData: function(e, buffer) {                       
+    let byteLength = buffer.byteLength;
+    if (byteLength > 0) {
+      var that = this;
+      let deviceId = e[0];
+      console.log(e,'getBluetoothDevicesgetBluetoothDevicesgetBluetoothDevices')
+      let characteristicId = e[2];
+      let serviceId = e[1];
+      wx.writeBLECharacteristicValue({
+        // 这里的 deviceId 需要在上面的 getBluetoothDevices 或 onBluetoothDeviceFound 接口中获取
+        deviceId: deviceId,
+        // 这里的 serviceId 需要在上面的 getBLEDeviceServices 接口中获取
+        serviceId: serviceId,
+        // 这里的 characteristicId 需要在上面的 getBLEDeviceCharacteristics 接口中获取
+        characteristicId: characteristicId,
+        // 这里的value是ArrayBuffer类型
+        value: buffer.slice(0, 20),
+        success: function(res) {
+          console.log('writeBLECharacteristicValue success', res)
+          if (byteLength > 20) {
+            console.log((1,2,3))
+            that.sendAndroidData(e, buffer.slice(20, byteLength))
+          }
+        },
+        fail: function(err) {
+          console.log('writeBLECharacteristicValue fail', err)
+        }
+      })
+    }
+  },
+  //停止扫描
+  blueUnsearch: function() {
+    let that = this
+    wx.stopBluetoothDevicesDiscovery({
+      success: function(res) {},
+      fail: function(res) {
+        console.log('stopBluetoothDevicesDiscovery', res)
+      }
+    })
+  },

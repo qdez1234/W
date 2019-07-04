@@ -10,8 +10,12 @@ overflow: hidden;  //首先是溢出隐藏，不可或缺
 
 //  超出单行省略
 
-overflow: hidden;溢出隐藏
-
-white-space: nowrap;文字不能转行
-
-text-overflow:ellipsis;隐藏的部分用...表示
+ .content {
+          display: -webkit-box; /*作为弹性伸缩盒子模型显示*/
+          -webkit-line-clamp: 2; /*显示的行数；如果要设置2行加...则设置为2*/
+          overflow: hidden;
+          text-overflow: ellipsis; /* 溢出用省略号*/
+          /*! autoprefixer: off */
+          -webkit-box-orient: vertical;/*伸缩盒子的子元素排列：从上到下*/
+          /* autoprefixer: on */
+        }

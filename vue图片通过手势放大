@@ -1,0 +1,191 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <meta http-equiv="Pragma" content="no-cache">
+    <meta http-equiv="Cache-Control" content="no-cache">
+    <meta name="renderer" content="webkit">
+    <meta http-equiv="Expires" content="0">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="format-detection" content="telephone=no">
+    <title>图片缩放</title>
+    <script src="https://cdn.bootcss.com/vue/2.5.15/vue.min.js"></script>
+    <style>
+        .img-div {
+            position: relative;
+        }
+        .big_img {
+            position: absolute;
+            max-width: 200%;
+            -webkit-transition: all 0s ease;
+            -moz-transition: all 0s ease;
+            -ms-transition: all 0s ease;
+            -o-transition: all 0s ease;
+            transition: all 0s ease;
+        }
+    </style>
+</head>
+<body class="bg-white">
+<div id="app">
+    <div v-cloak>
+        <div class="big_img_div">
+            <my-component v-bind:img_src="big_img_src"></my-component>
+            <my-component v-bind:img_src="big_img_src"></my-component>
+        </div>
+    </div>
+</div>
+<script>
+    Vue.component('my-component', {
+        template: `<div class="img-div"><img :src="img_src" @touchstart="touchstart" @touchmove="touchmove" @touchend="touchend" class="big_img" alt=""></div>`,
+        props: ['img_src'],
+        data () {
+            return {
+                start: {
+                    x: 0,
+                    y: 0
+                },
+                move: {
+                    x: 0,
+                    y: 0
+                },
+                scaleStart: {
+                    x0: 0,
+                    y0: 0,
+                    x1: 0,
+                    y1: 0
+                },
+                scaleMove: {
+                    x0: 0,
+                    y0: 0,
+                    x1: 0,
+                    y1: 0
+                },
+                touchTimes: 0
+            }
+        },
+        mounted: function () {
+            document.body.style.overflow = 'hidden';
+            document.body.style.webkitOverflowScrolling = 'none';
+        },
+        methods: {
+            touchstart: function (e) {
+                let event = window.event || e;
+                let _this = this;
+                this.touchTimes++;
+                // 双击时放大50
+                let timesFun = setTimeout(function () {
+                    // 如果大于1，说明是双击图片
+                    if (_this.touchTimes > 1) {
+                        event.touches[0].target.width += 50;
+                    }
+                    // 清除定时
+                    clearInterval(timesFun);
+                    _this.touchTimes = 0;
+                }, 300);
+                // 初始多个触摸位置（进行放大缩小）
+                if (event.touches.length > 1) {
+                    this.scaleStart = {
+                        x0: event.touches[0].clientX,
+                        y0: event.touches[0].clientY,
+                        x1: event.touches[1].clientX,
+                        y1: event.touches[1].clientY
+                    };
+                } else if (event.touches.length === 1) {
+                    // 初始单个触摸位置
+                    this.start = {
+                        x: event.touches[0].clientX,
+                        y: event.touches[0].clientY
+                    };
+                }
+            },
+            touchmove: function (e) {
+                this.touchTimes = 0;
+                let event = window.event || e;
+                // 如果是1个触摸点，只计算上下左右移动
+                if (event.touches.length === 1) {
+                    this.move.x += event.touches[0].clientX - this.start.x;
+                    this.move.y += event.touches[0].clientY - this.start.y;
+                    event.touches[0].target.style.transform = `translate3d(${this.move.x}px, ${this.move.y}px, 0px) translateZ(0px)`;
+                    this.start = {
+                        x: event.touches[0].clientX,
+                        y: event.touches[0].clientY
+                    };
+                } else if (event.touches.length === 2) { // 如果是2个触摸点，计算放大还是缩小
+                    // 触摸移动位置
+                    this.scaleMove = {
+                        x0: event.touches[0].pageX,
+                        y0: event.touches[0].pageY,
+                        x1: event.touches[1].pageX,
+                        y1: event.touches[1].pageY
+                    };
+                    /*
+                     * 计算触摸点差值
+                     * */
+                    // 初始2个触摸点
+                    const diffXInit = Math.abs(this.scaleStart.x0 - this.scaleStart.x1);
+                    const diffYInit = Math.abs(this.scaleStart.y0 - this.scaleStart.y1);
+                    const diffX = Math.abs(this.scaleMove.x0 - this.scaleMove.x1);
+                    const diffY = Math.abs(this.scaleMove.y0 - this.scaleMove.y1);
+                    /*
+                     * 判断是左右、还是上下滑动来放大缩小
+                     * */
+                    // 左右移动触摸
+                    if (Math.abs(this.scaleStart.x0 - this.scaleMove.x0) > Math.abs(this.scaleStart.y0 - this.scaleMove.y0)) {
+                        // 比较touch开始与移动时的差，计算出是缩小还是放大
+                        if (diffX > diffXInit) { // 放大
+                            event.touches[0].target.width += Math.abs(diffXInit - diffX);
+                            console.log('左右放大');
+                        } else { // 缩小
+                            event.touches[0].target.width -= Math.abs(diffXInit - diffX);
+                            console.log('左右缩小');
+                        }
+                    } else { // 上下移动触摸
+                        // 比较触摸开始与移动时的差，计算出是缩小还是放大
+                        if (diffY > diffYInit) { // 放大
+                            event.touches[0].target.width += Math.abs(diffYInit - diffY);
+                            console.log('上下放大');
+                        } else { // 缩小
+                            event.touches[0].target.width -= Math.abs(diffYInit - diffY);
+                            console.log('上下缩小');
+                        }
+                    }
+                    // 重置触摸位置
+                    this.scaleStart = {
+                        x0: event.touches[0].clientX,
+                        y0: event.touches[0].clientY,
+                        x1: event.touches[1].clientX,
+                        y1: event.touches[1].clientY
+                    };
+                }
+            },
+            touchend: function (e) {
+                let event = window.event || e;
+                // 如果触摸点变为1个时（就像2个触摸点，松开了1个），重置初始触摸点
+                if (event.touches.length > 0) {
+                    this.start = {
+                        x: event.touches[0].clientX,
+                        y: event.touches[0].clientY
+                    };
+                }
+            }
+        },
+    });
+
+    var app = new Vue({
+        el : '#app',
+        data () {
+            return {
+                big_img_src: 'https://eslint.org/img/logo.svg',
+            };
+        }
+    });
+</script>
+</body>
+</html>
+
+————————————————
+版权声明：本文为CSDN博主「CN-cheng」的原创文章，遵循CC 4.0 BY-SA版权协议，转载请附上原文出处链接及本声明。
+原文链接：https://blog.csdn.net/github_37125043/java/article/details/84378838

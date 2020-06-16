@@ -1,0 +1,42 @@
+var baseconfig = {};
+if (process.env.NODE_ENV === 'development') {
+  baseconfig = {
+    baseurl: '',
+    uploadurl: '',
+    uploadmall1:'',
+    baseserver: 
+    basemall:
+    tms: 
+    wms: 
+  }
+} else if (process.env.NODE_ENV === 'testing') {
+  baseconfig = {
+    baseurl: '',
+    uploadurl: '',
+    uploadmall1:'',
+    baseserver:
+    basemall: 
+    tms: 
+    wms: 
+  }
+} else if (process.env.NODE_ENV === 'xjping') {
+  baseconfig = {
+    baseurl: 
+    uploadurl: 
+    baseserver: 
+    basemall:
+    tms: 
+  }
+} else if (process.env.NODE_ENV === 'production') {
+  baseconfig = {
+    baseurl: 
+    uploadurl: 
+    baseserver: 
+    basemall: 
+    tms:
+    wms: 
+    uploadserver: 
+    uploadserver1: 
+  }
+}
+export default baseconfig;

@@ -1,0 +1,134 @@
+/**
+ * Created by jerry on 2017/6/9.
+ */
+// import axios from 'axios'
+// import Vue from 'vue'
+import baseconfig from "../baseconfig"
+axios.defaults.withCredentials = true;
+//添加一个请求拦截器
+axios.interceptors.request.use(function(config) {
+  var host = window.location.host;
+  if (localStorage.getItem(host + "tenantCode") != null) {
+    config.headers['tenantCode'] = localStorage.getItem(host + "tenantCode");
+  }
+
+  if (process.env.NODE_ENV == 'production') {
+    config.headers['X-Domain'] = host;
+  }else{
+    config.headers['X-Domain'] = "http://test.zstb.cn";
+  }
+  config.headers['X-Token'] = localStorage.getItem(host + "X-Token");
+  config.headers['X-User'] = localStorage.getItem(host + "X-User");
+
+  return config;
+}, function(error) {
+  // Do something with request error
+  return Promise.reject(error);
+});
+
+// 添加一个响应拦截器
+axios.interceptors.response.use(function(response) {
+  if (response.data && response.data.errcode) {
+    if (parseInt(response.data.errcode) === 40001) {
+      //未登录
+
+    }
+  }
+  return response;
+}, function(error) {
+  // Do something with response error
+  return Promise.reject(error);
+});
+
+let base = baseconfig.baseurl;
+let server = baseconfig.baseserver;
+
+let mallUrl = baseconfig.basemall;
+let tms = baseconfig.tms;
+let wms = baseconfig.wms;
+let uploadurl = baseconfig.uploadurl;
+let uploadserver = baseconfig.uploadserver;
+let uploadserver1 = baseconfig.uploadserver1;
+
+// let base= '';
+//通用方法
+export const getResult = (operation, url, type, params) => {
+  switch (operation) {
+    case "LIST":
+      return GET(url + '/list', type, params);
+      break;
+    case "PAGE":
+      return GET(url + '/page', type, params);
+      break;
+    case "GETID":
+      return GET(url + "/" + params, type, params);
+      break;
+    case "GET":
+      return GET(url, type, params);
+      break;
+    case "POST":
+      return POST(url, type, params);
+      break;
+    case "PATCH":
+      return PATCH(url, type, params);
+      break;
+    case "DELETE":
+      return DELETE(url, type, params);
+      break;
+  }
+}
+
+export const POST = (url, type, params) => {
+  var allurl = getUrl(type, url);
+  return axios.post(`${allurl}`, params).then(res => res.data)
+}
+
+export const GET = (url, type, params) => {
+  var allurl = getUrl(type, url);
+  return axios.get(`${allurl}`, {
+    params: params
+  }).then(res => res.data)
+}
+
+export const PUT = (url, type, params) => {
+  var allurl = getUrl(type, url);
+  return axios.put(`${allurl}`, params).then(res => res.data)
+}
+
+export const DELETE = (url, type, params) => {
+  var allurl = getUrl(type, url);
+  return axios.delete(`${allurl}`, {
+    params: params
+  }).then(res => res.data)
+}
+
+export const PATCH = (url, type, params) => {
+  var allurl = getUrl(type, url);
+  return axios.patch(`${allurl}`, params).then(res => res.data)
+}
+
+export const location = (url, type, params) => {
+  var allurl = getUrl(type, url);
+  window.location = allurl + params;
+}
+
+
+function getUrl(type, url) {
+  let allurl = base;
+  if (type == 1) {
+    allurl = base + mallUrl;
+  } else if (type == 3) {
+    allurl = base + tms
+  }else if (type==4) {
+    allurl = base + wms
+  } else if (type == 20) {
+    allurl = uploadurl + mallUrl;
+  }else if (type == 21) {
+    allurl = uploadserver;
+  }else if (type == 22) {
+    allurl = uploadserver1;
+  }else {
+    allurl = base + server;
+  }
+  return allurl + url;
+}

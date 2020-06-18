@@ -1,0 +1,59 @@
+var baseurl = "http://192.168.1.204:7000/tmsApi/"; //TMS测试接口 
+// var baseurl = "http://192.168.1.98:7000/tmsApi/"; //江湘丞测试接口
+ //var baseurl = 'https://api2.ysy123.cn/tms/'; //
+
+// var baseurl = "http://192.168.1.47:7000/tmsApi/"; //成测试接口 
+// var baseurl = "http://192.168.1.72:7000/tmsApi/"; //祖居测试接口
+const httpClient = {
+  request: function(method, url, data, contenType) {
+    let p = {
+      XToken: '',
+      XUser: '',
+      ContentType: 'application/json'
+    };
+    var XToken = wx.getStorageSync('X-Token');
+    if (XToken) {
+      p.XToken = XToken;
+    }
+    var XUser = wx.getStorageSync('X-User');
+    if (XUser) {
+      p.XUser = XUser;
+    }
+    if (contenType) {
+      p.ContentType = contenType;
+    }
+    var herders = {
+      'X-Token': p.XToken,
+      'X-User': p.XUser,
+      'Content-Type': p.ContentType
+    };
+    return new Promise((resolve, reject) => {
+      wx.request({
+        url: baseurl + url,
+        header: herders,
+        data: data,
+        method: method,
+        success: function(res) {
+          resolve(res.data)
+        },
+        fail: function(err) {
+          reject(err)
+        }
+      })
+    });
+  },
+  Get: function(url,data) {
+    return this.request('GET', url,data);
+  },
+  Post: function(url, data, contenType) {
+    return this.request('POST', url, data, contenType);
+  },
+  Put: function(url, data, contenType) {
+    return this.request('PUT', url, data, contenType);
+  },
+  Delete: function(url, data) {
+    return this.request('DELETE', url, data);
+  },
+  baseurl: baseurl
+};
+module.exports = httpClient;

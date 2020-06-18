@@ -12,7 +12,7 @@
     "build": "cross-env NODE_ENV=production env_config=prod node build/build.js"
   },
   "dependencies": {
-    "axios": "^0.16.2",
+    "axios": "^0.19.2",
     "cos-js-sdk-v5": "^0.4.12",
     "element-ui": "^2.11.0",
     "sortablejs": "^1.10.0-rc3",

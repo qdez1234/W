@@ -8,3 +8,12 @@ export default new Vuex.Store(
         }
     }
 )
+
+//调用的时候
+
+import {mapState,mapActions} form vuex
+
+
+computed:{...mapState({ishow:state=>state.toolslist.dialogshow})}
+
+methods:{...mapActions({setdialogshow:"setdialogshow"})}

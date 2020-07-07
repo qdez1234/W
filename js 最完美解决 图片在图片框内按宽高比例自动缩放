@@ -31,3 +31,100 @@ js 最完美解决 图片在图片框内按宽高比例自动缩放
             }
  
         }
+        
+        
+
+// 图片比例自动缩放            住：和功能设置里面的参数图片剪辑功能不能冲突
+Vue.prototype.AutoSize=function(ImgSrc,parentDemo,childDemo) {         //通过根据图片比例和图像框比例进行图片缩放
+  let that=this
+  if(that.$pictureShow==1){return}         //1代表自动剪辑  0代表缩放
+  // setTimeout(()=>{
+  var image = new Image();
+  //原图片原始地址（用于获取原图片的真实宽高，当<img>标签指定了宽、高时不受影响）
+  image.src = ImgSrc;  
+  image.onload=function(){
+  if(that.$refs[parentDemo][0]==undefined || that.$refs[childDemo][0]==undefined){return}
+  var maxWidth=that.$refs[parentDemo][0].offsetWidth   //要修改的图片的父级修改框的demo对象
+  var maxHeight=that.$refs[parentDemo][0].offsetHeight
+  var domeImg=that.$refs[childDemo][0]   //要修改的图片demo对象
+
+    // 当图片比图片框小时不做任何改变 
+  if (image.width < maxWidth&& image.height < maxHeight) {
+    domeImg.style.width=image.width+'px'
+    domeImg.style.height=image.height+'px'
+      // return {width:image.width,height:image.height}
+  }
+  else //原图片宽高比例 大于 图片框宽高比例,则以框的宽为标准缩放，反之以框的高为标准缩放
+  {
+      if (maxWidth/ maxHeight  <= image.width / image.height) //原图片宽高比例 大于 图片框宽高比例
+      {
+          //以框的宽度为标准
+          console.log(maxWidth,'宽度-------',maxWidth* (image.height / image.width),'高度-------')
+          domeImg.style.width=maxWidth+'px'
+          domeImg.style.height=maxWidth* (image.height / image.width)+'px'
+          // return {widthh:maxWidth,heightt:maxWidth* (image.height / image.width)}
+      }
+      else {   //原图片宽高比例 小于 图片框宽高比例
+               //以框的高度为标准
+               console.log(maxWidth,'宽度特指高-------',maxWidth* (image.height / image.width),'高度-------')
+               domeImg.style.height=maxHeight+'px'
+               domeImg.style.width=maxHeight  * (image.width / image.height)+'px'
+               //  return {widthh:maxHeight  * (image.width / image.height),heightt:maxHeight}
+      }
+  }
+  }
+// })
+},
+  //商城过滤小数点函数
+  Vue.prototype.replacePub=function(value){
+      let indexNumber=0
+      if(value==undefined || value=="") return
+      let index=value.indexOf(".")
+      let indexValue=value.substring(index+1,value.length)
+      for(let i=0;i<indexValue.length;i++){
+         if(indexValue.length-i<1) return
+         if(indexValue[indexValue.length-1-i]==0){
+            indexNumber++
+         }else{
+           break
+         }
+      }
+      if(indexNumber==indexValue.length){
+         return value.substring(0,value.length-indexNumber-1)
+      }else{
+         return value.substring(0,value.length-indexNumber)
+      }
+ }
+
+
+Vue.prototype.GetQueryString = function (name) {
+  var reg = new RegExp("(^|&)" + name + "=([^&]*)(&|$)", "i");
+  var r = window.location.search.substr(1).match(reg);
+  if (r != null) return unescape(r[2]); return null;
+}
+   
+// 将时间戳改成日期格式
+Vue.prototype.ChangeDateFormat = function (longtime, hasDate) {
+  var time = new Date(longtime)
+  var y = time.getFullYear()
+  var m = time.getMonth() + 1
+  var d = time.getDate()
+  var returnResult = y + '-' + (m < 10 ? '0' + m : m) + '-' + (d < 10 ? '0' + d : d)
+  if (hasDate) {
+    var h = time.getHours()
+    var mm = time.getMinutes()
+    var s = time.getSeconds()
+    returnResult += ' ' + (h < 10 ? '0' + h : h) + ':' + (mm < 10 ? '0' + mm : mm) + ':' + (s < 10 ? '0' + s : s)
+  }
+  return returnResult
+}
+// 字符串转日期
+Vue.prototype.StringToDate = function (longtime) {
+  var time = new Date(longtime)
+  return time
+}
+
+
+
+
+

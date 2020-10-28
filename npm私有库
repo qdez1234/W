@@ -46,9 +46,14 @@ pm2守护verdaccio进程
 安装
 npm install -g pm2 --unsafe-perm
 
-
 使用pm2启动verdaccio
-pm2 start verdaccio
+pm2 start verdaccio    
+
+网上说的pm2 start verdaccio 和 pm2 start “which verdaccio” 都不行   应该
+
+C:\Users\Administrator\AppData\Roaming\npm\node_modules找到verdaccio文件夹并打开bin
+
+pm2 start C:\Users\Administrator\AppData\Roaming\npm\node_modules\verdaccio\bin\verdaccio
 
 
 查看pm2 守护下的进程verdaccio的实时日志

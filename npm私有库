@@ -1,0 +1,37 @@
+使用verdaccio 配置npm私有库
+
+npm config get registry    可以获取当前源地址
+
+npm who am i               可以查看当前账号
+
+npm的镜像源管理工具
+npm install -g nrm   
+
+nrm可以进行镜像切换   
+urm use xxx (原名称或者地址)
+
+nrm ls 查看当前npm有多少个源地址
+
+使用npm 全局安装verdaccio
+npm install –global verdaccio
+
+然后启动在命令行输入   verdaccio
+然后得到了当前源地址     http://localhost:4873     目前服务器地址  npm set registry http://148.70.223.155:4873
+
+首先将verdaccio源地址添加注册进来
+
+npm add verdaccio(别名随意取) http://148.70.223.155:4873       nrm add verdaccio http://xxx(服务器ip):4873(服务器端口)
+
+接着 nrm use verdaccio(别名)   切换到这个项目的源地址
+
+接着注册账号   npm adduser –registry http://xxx(服务器ip):4873(服务器端口)
+按照提示输入userName 和 password,email
+
+有了账号密码了,后续可以使用npm login 登录
+
+
+发布包
+npm init                                     先初始化一个文件
+npm publish                               发布  
+npm unpublish 包名@版本号       删除指定的版本
+npm unpublish 包名 --force         删除整个包

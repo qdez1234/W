@@ -35,3 +35,23 @@ npm init                                     先初始化一个文件
 npm publish                               发布  
 npm unpublish 包名@版本号       删除指定的版本
 npm unpublish 包名 --force         删除整个包
+
+
+
+pm2守护verdaccio进程
+利用第一种方法虽然可以正常启动和使用verdaccio，但不建议用这种方式启动verdaccio，我们可以用pm2来使用pm2对verdaccio进程进行托管启动。
+安装pm2并使用pm2启动verdaccio，使用pm2托管的进程可以保证进程永远是活着的，尝试通过kill -9去杀verdaccio的进程发现杀了之后又自动启起来。推荐使用此种方式启动verdaccio.
+
+
+安装
+npm install -g pm2 --unsafe-perm
+
+
+使用pm2启动verdaccio
+pm2 start verdaccio
+
+
+查看pm2 守护下的进程verdaccio的实时日志
+pm2 show verdaccio   
+
+

@@ -1,7 +1,11 @@
 
 //------------------------------------------------数据生成Excel表格------------------------------------------------
-
-
+1.axios里面设置   
+return axios.get(`${allurl}`, {
+    params: params,
+    responseType:'blob'
+    
+2.到处函数
 export function creatExcelFn(cname,data)   
 {
   let blob=new Blob([data])   //数据转格式

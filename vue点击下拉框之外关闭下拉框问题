@@ -1,0 +1,13 @@
+//  重点是this.$refs.box.contains()    .contains()   检测当前当前box盒子是否包含这些目标点击元素
+
+
+created(){
+   document.addEventListener('click',(e)=>{
+       if(this.$refs.showPanel){
+           let isSelf = this.$refs.showPanel.contains(e.target)
+           if(!isSelf){
+               this.isShow = false
+           }
+       }
+   })
+}

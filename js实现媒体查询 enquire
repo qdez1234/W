@@ -1,0 +1,46 @@
+import enquireJs from 'enquire.js'
+
+const enquireScreen = function (call) {   //回调
+  // tablet
+  const handler = {
+    match: function () {   //匹配上
+      call && call(0)
+    },
+    unmatch: function () {
+      call && call(-1)
+    }
+  }
+  // mobile
+  const handler2 = {
+    match: () => {
+      call && call(1)
+    }
+  }
+  enquireJs.register('screen and (max-width: 1087.99px)', handler)    //处于这个区间调用handler配置
+  enquireJs.register('screen and (max-width: 767.99px)', handler2)
+}
+
+export default enquireScreen
+
+import enquireScreen from '@/utils/device'
+APP.vue页面
+    created () {
+      let that = this
+      enquireScreen(deviceType => {
+        // tablet
+        if (deviceType === 0) {
+          that.$store.commit('TOGGLE_DEVICE', 'mobile')
+          that.$store.dispatch('setSidebar', false)
+        }
+        // mobile
+        else if (deviceType === 1) {
+          that.$store.commit('TOGGLE_DEVICE', 'mobile')
+          that.$store.dispatch('setSidebar', false)
+        }
+        else {
+          that.$store.commit('TOGGLE_DEVICE', 'desktop')
+          that.$store.dispatch('setSidebar', true)
+        }
+
+      })
+    }
